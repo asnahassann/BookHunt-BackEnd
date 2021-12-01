@@ -31,7 +31,7 @@ exports.logIn = async (req,res) => {
 exports.favouriteBook = async (req,res) => {
     try {
         const user = await User.findOne({ user: req.body.user }) 
-        const favBook = await user.favorite();
+        const favBook = await user.favourite();
         res.status(200).send({ messages: "success", favBook });
     } catch (error) {
         console.log(error);
@@ -43,7 +43,7 @@ exports.favouriteBook = async (req,res) => {
 exports.unfavouriteBook = async (req,res) => {
     try {
         const user = await User.findOne({ user: req.body.user }) 
-        const unfavBook = await user.unfavorite();
+        const unfavBook = await user.unFavourite();
         res.status(200).send({ messages: "removed", unfavBook });
     } catch (error) {
         console.log(error);
@@ -55,7 +55,7 @@ exports.unfavouriteBook = async (req,res) => {
 exports.listFavBook = async (req,res) => {
     try {
         const user = await User.findOne({ user: req.body.user }) 
-        const listFavBook = await user.isFavorite();
+        const listFavBook = await user.isFavourite();
         res.status(200).send({ messages: "Success", listFavBook });
     } catch (error) {
         console.log(error);

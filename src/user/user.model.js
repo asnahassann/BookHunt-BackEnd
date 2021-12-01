@@ -22,19 +22,19 @@ const userSchema = new mongoose.Schema({
     }]
 });
 
-userSchema.methods.favorite = function(id){
+userSchema.methods.favourite = function(id){
     if(this.favorites.indexOf(id) === -1){
         this.favorites.push(id);
     }
     return this.save();
 };
 
-userSchema.methods.unfavorite = function(id){
+userSchema.methods.unFavourite = function(id){
     this.favorites.remove(id);
     return this.save();
 };
 
-userSchema.methods.isFavorite = function(id){
+userSchema.methods.isFavourite = function(id){
     return this.favorites
 };
 
