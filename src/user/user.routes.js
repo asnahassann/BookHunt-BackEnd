@@ -1,5 +1,5 @@
 const { Router } = require("express");
-const { addUser, logIn, listFavBook, unfavouriteBook, favouriteBook  } = require("./user.controllers");
+const { addUser, logIn, listFavBook  } = require("./user.controllers");
 const { hashPassword, comparePasswords, tokenAuth } = require("../middleware/index");
 const userRouter = Router(); 
 
