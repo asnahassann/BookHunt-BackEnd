@@ -1,4 +1,5 @@
 const User = require('./user.model');
+const { hashPassword } = require('../middleware');
 
 exports.addUser = async (req, res) => {
   try {
@@ -23,6 +24,44 @@ exports.logIn = async (req, res) => {
     res.status(500).send({ message: 'check server logs' });
   }
 };
+
+exports.updateUser = async (req, res) => {
+    try {
+      const doc = await User.findOne({ username: req.body.update.username });
+  
+      const { newInfo } = req.body;
+  
+      if (newInfo.username) doc.username = newInfo.username;
+      if (newInfo.email) doc.email = newInfo.email;
+      if (newInfo.password) {
+        req.body.password = newInfo.password;
+        doc.password = await hashPassword(req, res, () => null);
+      }
+  
+      await doc.save();
+  
+      res.status(200).send({ message: 'Update successful', doc });
+    } catch (error) {
+        console.log(error);
+      res
+        .status(418)
+        .send({ message: 'Something went wrong, check server logs.' });
+    }
+  };
+
+
+exports.deleteUser = async (req, res) => {
+    try {
+        await User.deleteOne(req.body);
+        res.status(200).send({ message: 'Deletion successful' });
+    } catch (error) {
+        console.log(error);
+    res
+        .status(418)
+        .send({ message: 'Something went wrong, check server logs.' });
+    }
+};
+
 
 //favourite book
 exports.favouriteBook = async (req, res) => {
