@@ -52,7 +52,7 @@ exports.updateUser = async (req, res) => {
 
 exports.deleteUser = async (req, res) => {
     try {
-        await User.deleteOne(req.body);
+        await User.deleteOne(req.params.username);
         res.status(200).send({ message: 'Deletion successful' });
     } catch (error) {
         console.log(error);
