@@ -2,24 +2,38 @@ const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
 
 const userSchema = new mongoose.Schema({
-    username: {
-        type: String,
-        required: true, 
-        unique: true,
+  username: {
+    type: String,
+    required: [true, "A username is required."],
+    unique: true,
+  },
+  email: {
+    type: String,
+    required: [true, "An email address is required."],
+    unique: true,
+    match: /.+\@.+..+/,
+  },
+  password: {
+    type: String,
+    required: [true, "Please enter a confirmation password."],
+  },
+  favorites: [
+    {
+      type: String,
     },
-    email: {
-        type: String,
-        required: true,
-        unique: true,
-        match: /.+\@.+..+/,
+  ],
+  rating: [
+    {
+      score: {
+        type: Number,
+        default: 0,
+      },
+      id: {
+          type: String,
+          default: ""
+      }
     },
-    password: {
-        type: String, 
-        required: true,
-    },
-    favorites: [{
-        type: String,
-    }]
+  ],
 });
 
 userSchema.methods.favourite = function(id){
