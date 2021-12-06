@@ -98,3 +98,37 @@ exports.listFavBook = async (req, res) => {
     res.status(500).send({ message: 'check server logs' });
   }
 };
+
+//rating
+exports.reviewStar = async (req, res) => {
+  try {
+  const user = await User.findOne({username: req.user.username})
+  console.log(user);
+  if (!user.rating) {
+    user.rating.push(req.body)
+    const updatedUser = await user.save();
+    res.status(200).send(updatedUser);
+return 
+  } 
+  //check if logged in user has already added rating to this book
+  let existingRatingObject = user.rating.find(el => el.id.toString() === req.body.id.toString())
+  
+  //if user hasn't left rating, push it
+  if(existingRatingObject === undefined){
+    user.rating.push(req.body)
+  } else {
+    user.rating.forEach(rating => {
+      if (rating.id === req.body.id) {
+        rating.score = req.body.score
+      }
+    })
+  }
+  const updatedUser = await user.save();
+  res.status(200).send(updatedUser);
+  
+} catch (error) {
+  console.log(error);
+  res.status(500).send({ message: 'check server logs' });
+;
+}
+}
